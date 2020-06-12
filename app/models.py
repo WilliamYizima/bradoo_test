@@ -4,7 +4,7 @@ from app import db
 class Vendor(db.Model):
     __tablename__ = 'tb_vendor'
 
-    id = db.Column(db.Integer,prymary_key = True)
+    id = db.Column(db.Integer,primary_key = True)
     name = db.Column(db.String())
     cnpj = db.Column(db.String())
     city = db.Column(db.String())
