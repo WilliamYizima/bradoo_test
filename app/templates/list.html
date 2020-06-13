@@ -4,6 +4,14 @@
 {% block title %}Flasky{% endblock %}
 
 {% block page_content %}
+<div class="table-title">
+                <div class="row">
+                    <div class="col-sm-8"><h2>Employee <b>Details</b></h2></div>
+                    <div class="col-sm-4">
+                        <button type="button" class="btn btn-info add-new"><i class="fa fa-plus"></i> Add New</button>
+                    </div>
+                </div>
+            </div>
 <table class="table table-hover">
     <thead>
       <tr>
@@ -11,29 +19,47 @@
         <th scope="col">First</th>
         <th scope="col">Last</th>
         <th scope="col">Handle</th>
+        <th scope="col">COluna edit</th>
+        <th scope="col">COluna Excluir</th>
       </tr>
     </thead>
     <tbody>
-      <tr>
-        <th scope="row">1</th>
-        <td>Mark</td>
-        <td>Otto</td>
-        <td>@mdo</td>
+      {% for objeto in obj%}
+      <tr data-id="{{objeto.id}}">
+        <th scope="row">{{objeto.id}}</th>
+        <td>{{objeto.name}}</td>
+        <td>{{objeto.cnpj}}</td>
+        <td>{{objeto.city}}</td>
+        <td><button onclick="excluir({{objeto.id}})">X</button></td>
+        <td><button onclick="editar({{objeto}})">Editar</button></td>
       </tr>
-      <tr>
-        <th scope="row">2</th>
-        <td>Jacob</td>
-        <td>Thornton</td>
-        <td>@fat</td>
-      </tr>
-      <tr>
-        <th scope="row">3</th>
-        <td colspan="2">Larry the Bird</td>
-        <td>@twitter</td>
-      </tr>
+      {% endfor %}
     </tbody>
   </table>
-    
-
+<hr />
+<section id="editar" class="sec-invisible">
+  <h2>Editar</h2>
+  <form id="editForm">
+      <div>
+          <label for="txtId">ID</label>
+          <input id="txtId" type="text" />
+      </div>
+      <div>
+        <label for="txtFirst">First</label>
+        <input id="txtFirst" type="text"/>
+      </div>
+      <div>
+        <label for="txtLast">Last</label>
+        <input id="txtLast" type="text"/>
+      </div>
+      <div>
+        <label for="txtHandle">Handle</label>
+        <input id="txtHandle" type="text"/>
+      </div>
+      <div>
+          <button id="btnUpdate">Salvar edição</button>
+      </div>
+  </form>
+</section>
 
 {% endblock %}

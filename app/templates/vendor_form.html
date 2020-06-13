@@ -3,23 +3,24 @@
 {% block title %}Register{% endblock %}
 
 {% block page_content %}
-<form>
+<form method="POST">
     <div class="row">
         <div class="form-group col-md-6">
             <label for="inputEmail4">Name</label>
-            <input type="email" class="form-control" id="inputEmail4" placeholder="Name" required>
+            <input type="text" class="form-control" name="name" id="inputEmail4" placeholder="Name" required>
         </div>
     </div>
     <div class="row">
         <div class="form-group col-md-6">
             <label for="inputEmail4">CNPJ</label>
-            <input type="email" class="form-control" id="inputEmail4" placeholder="Name" required>
+            <input type="text" class="form-control" name="cnpj" id="inputEmail4" placeholder="Name" required>
+        </div>
         </div>
     </div>
     <div class="row">
         <div class="form-group col-md-6">
             <label for="inputEmail4">City</label>
-            <input type="email" class="form-control" id="inputEmail4" placeholder="Name" >
+            <input type="text" class="form-control" name="city" id="inputEmail4" placeholder="Name" >
         </div>
         <input type="hidden">
     </div>

@@ -36,5 +36,58 @@
 {% endfor %}
     {% block page_content %}{% endblock %}
 </div>
+<script>
+    editSectionElement = document.querySelector("#editar");
+    btnUpdate = document.querySelector("#btnUpdate")
+
+    // Fields
+    txtId = document.querySelector("#txtId");
+    txtFirst = document.querySelector("#txtFirst");
+    txtLast = document.querySelector("#txtLast");
+    txtHandle = document.querySelector("#txtHandle");
+
+    // Event Listener
+    btnUpdate.addEventListener("click", (e, data) => {
+        e.preventDefault();
+
+        console.log("Atualizando no banco...")
+        console.log("ID: ", txtId.value);
+        console.log("First: ", txtFirst.value);
+        console.log("Last: ", txtLast.value);
+        console.log("Handle: ", txtHandle.value);
+        console.log("Atualizou com sucesso....");
+
+        editSectionElement.classList.remove("sec-show");
+        txtId.value = ""
+        txtFirst.value = ""
+        txtLast.value = ""
+        txtHandle.value = ""
+
+    })
+
+    function excluir(id){
+        myElement = document.querySelector(`tr[data-id="${id}"]`)
+        myElement.remove()
+    }
+
+    function editar(dataPeople){
+        editSectionElement.classList.add("sec-show");
+        txtId.value = dataPeople.id
+        txtFirst.value = dataPeople.First
+        txtLast.value = dataPeople.Last
+        txtHandle.value = dataPeople.Handle
+    }
+</script>
+
+<style>
+    .sec-invisible {
+      opacity: 0;
+      transition: all .6s ease;
+    }
+  
+    .sec-show {
+      opacity: 1 !important;
+    }
+  </style>
 {% endblock %}
 

@@ -1,5 +1,5 @@
 import os
-from flask import Flask,render_template
+from flask import Flask,render_template,request
 from flask_bootstrap import Bootstrap
 from flask_sqlalchemy import SQLAlchemy
 
@@ -7,21 +7,68 @@ app = Flask(__name__)
 Bootstrap(app)
 
 app.config.from_object(os.environ['APP_SETTINGS'])
+#TODO retirar abaixo
+# app.config['SQLALCHEMY_DATABASE_URI'] = "postgresql://will:123456@localhost:5432/bradoo_test"
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+
 db = SQLAlchemy(app)
 
-from models import Vendor
+
+from models import Vendor,Product
 
 @app.route('/list')
 def list():
-    return render_template('list.html')
+    #TODO alterar nome das variaǘeis
+    obj = [{
+            "id": 123, 
+            "First": "leo",
+            "Last": "Avelino",
+            "Handle": "@fat"
+        },
+        {
+            "id": 132131, 
+            "First": "asfsafsf",
+            "Last": "Avelino",
+            "Handle": "@fat"
+        },]
 
-@app.route('/register')
-def register():
-    #TODO validar o cnpj
-    #TODO id no BD
-    #TODO CNPJ unique
-    return render_template('vendor_form.html')
+    try:
+        vendor=Vendor.query.all()
+        all_vendor = [e.serialize() for e in vendor]
+        
+        return render_template('list.html',
+                                obj=all_vendor)
+    except Exception as e:
+        return(str(e))
+    return render_template('list.html',obj = obj)
+
+# @app.route('/register')
+# def register():
+#     #TODO validar o cnpj
+#     #TODO id no BD
+#     #TODO CNPJ unique
+#     return render_template('vendor_form.html')
+
+@app.route("/register",methods=['GET', 'POST'])
+def add_vendor():
+    if request.method == 'POST':
+        name=request.form.get('name')
+        cnpj=request.form.get('cnpj')
+        city=request.form.get('city')
+        try:
+            vendor=Vendor(
+                name=name,
+                cnpj=cnpj,
+                city=city
+            )
+            db.session.add(vendor)
+            db.session.commit()
+            return "Vendor added. book id={}".format(vendor.id)
+        except Exception as e:
+            return(str(e))
+    return render_template("vendor_form.html")
+
+
 
 if __name__ == "__main__":
     app.run(port=5000, debug=True)
