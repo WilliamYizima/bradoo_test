@@ -30,7 +30,7 @@ class Product(db.Model):
     
 
     id = db.Column(db.Integer,primary_key = True)
-    code = db.Column(db.Integer,autoincrement=True,nullable = False, unique = False)
+    code = db.Column(db.String,nullable = False, unique = True)
     name = db.Column(db.String(),nullable = False, unique = False)
     price = db.Column(db.Float(), nullable = False, unique = False)
     vendor_id = db.Column(db.Integer, db.ForeignKey('vendor.id'),nullable=False)

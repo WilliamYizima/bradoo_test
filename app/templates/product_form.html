@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+
+{% block title %}Register{% endblock %}
+
+{% block page_content %}
+<form method="POST">
+    <div class="row">
+        <div class="form-group col-md-6">
+            <label for="inputEmail4">Name</label>
+            <input type="text" class="form-control" name="name" id="inputEmail4" placeholder="Name" required>
+        </div>
+    </div>
+    <div class="row">
+        <div class="form-group col-md-6">
+            <label for="inputEmail4">Code</label>
+            <input type="text" class="form-control" name="code" id="inputEmail4" placeholder="Name" required>
+        </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="form-group col-md-6">
+            <label for="inputEmail4">Price</label>
+            <input type="text" class="form-control" name="price" id="inputEmail4" placeholder="Name" >
+        </div>
+        <input type="hidden">
+    </div>
+
+            <button type="submit" class="btn btn-primary">Sign in</button>
+</form>
+
+
+
+{% endblock %}

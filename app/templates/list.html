@@ -4,23 +4,28 @@
 {% block title %}Flasky{% endblock %}
 
 {% block page_content %}
+
+
 <div class="table-title">
                 <div class="row">
                     <div class="col-sm-8"><h2>Employee <b>Details</b></h2></div>
                     <div class="col-sm-4">
-                        <button type="button" class="btn btn-info add-new"><i class="fa fa-plus"></i> Add New</button>
+                        <button type="button" class="btn btn-info add-new"><i class="fa fa-plus"><a href="/registervendor">
+                        </i> Add New
+                        </a></button>
                     </div>
                 </div>
             </div>
 <table class="table table-hover">
     <thead>
       <tr>
-        <th scope="col">#</th>
-        <th scope="col">First</th>
-        <th scope="col">Last</th>
-        <th scope="col">Handle</th>
-        <th scope="col">COluna edit</th>
-        <th scope="col">COluna Excluir</th>
+        <th scope="col">ITEM</th>
+        <th scope="col">NAME</th>
+        <th scope="col">CNPJ</th>
+        <th scope="col">CITY</th>
+        <th scope="col"></th>
+        <th scope="col"></th>
+        <th scope="col"></th>
       </tr>
     </thead>
     <tbody>
@@ -32,6 +37,7 @@
         <td>{{objeto.city}}</td>
         <td><button onclick="excluir({{objeto.id}})">X</button></td>
         <td><button onclick="editar({{objeto}})">Editar</button></td>
+        <td><button><a href="#">VER</a></button></td>
       </tr>
       {% endfor %}
     </tbody>

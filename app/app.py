@@ -48,8 +48,8 @@ def list():
 #     #TODO id no BD
 #     #TODO CNPJ unique
 #     return render_template('vendor_form.html')
-
-@app.route("/register",methods=['GET', 'POST'])
+#TODO melhorar o sistema de rotas
+@app.route("/registervendor",methods=['GET', 'POST'])
 def add_vendor():
     if request.method == 'POST':
         name=request.form.get('name')
@@ -68,6 +68,37 @@ def add_vendor():
             return(str(e))
     return render_template("vendor_form.html")
 
+@app.route("/registerproduct",methods=['GET', 'POST'])
+def add_product():
+    if request.method == 'POST':
+        name=request.form.get('name')
+        cnpj=request.form.get('code')
+        city=request.form.get('price')
+        try:
+            product=Product(
+                name=name,
+                cnpj=code,
+                city=price
+            )
+            db.session.add(product)
+            db.session.commit()
+            return "Vendor added. book id={}".format(product.id)
+        except Exception as e:
+            return(str(e))
+    return render_template("product_form.html")
+
+
+@app.route('/get/<id_>')
+def get_id(id_):
+    try:
+        product=Product.query.filter_by(id=id_).first()
+        product_id =(product.serialize())
+        
+
+        return render_template('detail.html',
+                                product = product_id)
+    except Exception as e:
+        return (str(e))
 
 
 if __name__ == "__main__":
