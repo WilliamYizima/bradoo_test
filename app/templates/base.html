@@ -1,8 +1,7 @@
 {% extends "bootstrap/base.html" %}
 {% block head %}
 {{ super() }}
-<link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}" type="image/x-icon">
-<link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}" type="image/x-icon">
+
 <style>
 .tab {
     overflow: hidden;
@@ -42,59 +41,40 @@
 {% endblock %}
 {% block title %}BRADOO_TEST{% endblock %}
 {% block navbar %}
-<div class="navbar navbar-inverse" role="navigation">
-    <div class="container">
-        <div class="navbar-header">
-            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                <span class="sr-only">Toggle navigation</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-            <a class="navbar-brand" href="/">HOME</a>
-        </div>
-        <div class="navbar-collapse collapse">
-            <ul class="nav navbar-nav">
-                <li><a href="/">VENDOR</a></li>
-                <li><a href="/">PRODUCTS</a></li>
-            </ul>
-        </div>
-    </div>
-</div>
+
 <div class="tab">
-    <button class="tablinks" onclick="openCity(event, 'London')">London</button>
-    <button class="tablinks" onclick="openCity(event, 'Paris')">Paris</button>
-    <button class="tablinks" onclick="openCity(event, 'Tokyo')">Tokyo</button>
+    <button class="tablinks" onclick="openCity(event, 'Vendor')" id="defaultOpen" value="Vendor">Vendor</button>
+    <button class="tablinks" onclick="openCity(event, 'Product')">Products</button>
+    
   </div>
   
-  <!-- Tab content -->
-  <div id="London" class="tabcontent">
-    <h3>London</h3>
-    <p>London is the capital city of England.</p>
-  </div>
-  
-  <div id="Paris" class="tabcontent">
-    <h3>Paris</h3>
-    <p>Paris is the capital of France.</p>
-  </div>
-  
-  <div id="Tokyo" class="tabcontent">
-    <h3>Tokyo</h3>
-    <p>Tokyo is the capital of Japan.</p>
-  </div>
 
 {% endblock %}
 {% block content %}
 <div class="container">
-    {% for message in get_flashed_messages() %}
-<div class="alert alert-warning">
-    <button type="button" class="close" data-dismiss="alert">&times;</button>
-    {{ message }}
-</div>
-{% endfor %}
+
+
+
+
     {% block page_content %}{% endblock %}
+    
 </div>
 <script>
+    document.getElementById("defaultOpen").click();
+
+    function somenteNumeros(e) {
+        var charCode = e.charCode ? e.charCode : e.keyCode;
+        // charCode 8 = backspace   
+        // charCode 9 = tab
+        if (charCode != 8 && charCode != 9) {
+            // charCode 48 equivale a 0   
+            // charCode 57 equivale a 9
+            if (charCode < 48 || charCode > 57) {
+                return false;
+            }
+        }
+    }
+
     editSectionElement = document.querySelector("#editar");
     btnUpdate = document.querySelector("#btnUpdate")
 
@@ -105,23 +85,23 @@
     txtHandle = document.querySelector("#txtHandle");
 
     // Event Listener
-    btnUpdate.addEventListener("click", (e, data) => {
-        e.preventDefault();
+    // btnUpdate.addEventListener("click", (e, data) => {
+    //     e.preventDefault();
 
-        console.log("Atualizando no banco...")
-        console.log("ID: ", txtId.value);
-        console.log("First: ", txtFirst.value);
-        console.log("Last: ", txtLast.value);
-        console.log("Handle: ", txtHandle.value);
-        console.log("Atualizou com sucesso....");
+    //     console.log("Atualizando no banco...")
+    //     console.log("ID: ", txtId.value);
+    //     console.log("First: ", txtFirst.value);
+    //     console.log("Last: ", txtLast.value);
+    //     console.log("Handle: ", txtHandle.value);
+    //     console.log("Atualizou com sucesso....");
 
-        editSectionElement.classList.remove("sec-show");
-        txtId.value = ""
-        txtFirst.value = ""
-        txtLast.value = ""
-        txtHandle.value = ""
+    //     editSectionElement.classList.remove("sec-show");
+    //     txtId.value = ""
+    //     txtFirst.value = ""
+    //     txtLast.value = ""
+    //     txtHandle.value = ""
 
-    })
+    // })
 
     function excluir(id){
         myElement = document.querySelector(`tr[data-id="${id}"]`)
@@ -135,6 +115,8 @@
         txtLast.value = dataPeople.Last
         txtHandle.value = dataPeople.Handle
     }
+    
+
     function openCity(evt, cityName) {
   // Declare all variables
   var i, tabcontent, tablinks;

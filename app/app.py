@@ -1,5 +1,5 @@
 import os
-from flask import Flask,render_template,request
+from flask import Flask,render_template,request,redirect,url_for
 from flask_bootstrap import Bootstrap
 from flask_sqlalchemy import SQLAlchemy
 
@@ -47,26 +47,26 @@ def list():
 #     #TODO validar o cnpj
 #     #TODO id no BD
 #     #TODO CNPJ unique
+      #TODO Tratamento para mascara CNPJ
 #     return render_template('vendor_form.html')
 #TODO melhorar o sistema de rotas
-@app.route("/registervendor",methods=['GET', 'POST'])
+@app.route("/registervendor",methods=['POST'])
 def add_vendor():
-    if request.method == 'POST':
-        name=request.form.get('name')
-        cnpj=request.form.get('cnpj')
-        city=request.form.get('city')
-        try:
-            vendor=Vendor(
-                name=name,
-                cnpj=cnpj,
-                city=city
-            )
-            db.session.add(vendor)
-            db.session.commit()
-            return "Vendor added. book id={}".format(vendor.id)
-        except Exception as e:
-            return(str(e))
-    return render_template("vendor_form.html")
+    name=request.form.get('name')
+    cnpj=request.form.get('cnpj')
+    city=request.form.get('city')
+    try:
+        vendor=Vendor(
+            name=name,
+            cnpj=cnpj,
+            city=city
+        )
+        db.session.add(vendor)
+        db.session.commit()
+        return redirect(url_for('list'))
+    except Exception as e:
+        return(str(e))
+    return render_template("list.html")
 
 @app.route("/registerproduct",methods=['GET', 'POST'])
 def add_product():
