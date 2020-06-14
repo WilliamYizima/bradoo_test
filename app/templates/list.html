@@ -9,33 +9,32 @@
 
   <div class="table-title">
     <div class="row">
-      <div class="col-sm-8">
-        <h2>Vendor <b>Details</b></h2>
+      <div class="col-sm-4">
+        <h2> <b>Vendor</b></h2>
       </div>
     </div>
   </div>
   <table class="table table-hover">
     <thead>
-      <tr>
+      <tr class='row'>
         <th scope="col">ITEM</th>
         <th scope="col">NAME</th>
         <th scope="col">CNPJ</th>
         <th scope="col">CITY</th>
         <th scope="col"></th>
         <th scope="col"></th>
-        <th scope="col"></th>
       </tr>
     </thead>
     <tbody>
       {% for objeto in obj%}
-      <tr data-id="{{objeto.id}}">
-        <th scope="row">{{objeto.id}}</th>
-        <td>{{objeto.name}}</td>
-        <td>{{objeto.cnpj}}</td>
-        <td>{{objeto.city}}</td>
-        <td><button onclick="excluir({{objeto.id}})">X</button></td>
-        <td><button onclick="editar({{objeto}})">Editar</button></td>
-        <td><button><a href="#">VER</a></button></td>
+      <tr class='row' data-id="{{objeto.id}}">
+        <td class='col-sm-2'>{{objeto.id}}</td>
+        <td class='col-sm-2'>{{objeto.name}}</td>
+        <td class='col-sm-2'>{{objeto.cnpj}}</td>
+        <td class='col-sm-2'>{{objeto.city}}</td>
+        <td class='col-sm-1'><button class="btn btn-warning" onclick="editar({{objeto}})">Editar</button></td>
+        <td class='col-sm-1'><form action="/del/{{objeto.id}}" method="POST"> <button type="submit" class="btn btn-danger">Excluir</button></form></td>
+        <td class='col-sm-1'><button class="btn btn-secondary"><a href="#">Detalhes</a></button></td>
       </tr>
       {% endfor %}
     </tbody>

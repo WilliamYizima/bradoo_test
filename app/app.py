@@ -100,6 +100,17 @@ def get_id(id_):
     except Exception as e:
         return (str(e))
 
+@app.route('/del/<id_>',methods=['POST'])
+def delete_company(id_):
+    # print('delete foiii',id_)
+    
+    try:
+        #TODO ddelete products before vendor
+        vendor=Vendor.query.filter_by(id=id_).delete()
+        db.session.commit()
+        return redirect(url_for('list'))
+    except Exception as e:
+        return redirect(url_for('list'))
 
 if __name__ == "__main__":
     app.run(port=5000, debug=True)
