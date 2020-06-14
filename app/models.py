@@ -1,5 +1,7 @@
-from app import db
+from datetime import datetime
 
+from app import db
+from helper import cnpj_mask
 
 class Vendor(db.Model):
     
@@ -22,7 +24,7 @@ class Vendor(db.Model):
         return{
             'id': self.id,
             'name': self.name,
-            'cnpj': self.cnpj,
+            'cnpj': cnpj_mask(self.cnpj),
             'city': self.city
         }
 
@@ -34,3 +36,41 @@ class Product(db.Model):
     name = db.Column(db.String(),nullable = False, unique = False)
     price = db.Column(db.Float(), nullable = False, unique = False)
     vendor_id = db.Column(db.Integer, db.ForeignKey('vendor.id'),nullable=False)
+
+    def __init__(self, code,name,vendor_id,price=0.00):
+        self.name = name
+        self.code = cnpj
+        self.price = city
+        self.vendor_id = city
+
+    def __repr__(self):
+        return '<id {}>'.format(self.id)
+
+    def serialize(self):
+        return{
+            'id': self.id,
+            'code': self.code,
+            'name':self.name,
+            'price': 'R${:20,.2f}'.format(self.price),
+            'vendor_id': self.city
+        }
+class Errors(db.Model):
+
+    id = db.Column(db.Integer,primary_key = True)
+    end_point = db.Column(db.String(),nullable = False, unique = False)
+    error = db.Column(db.String(),nullable = False, unique = False)
+    updated_at = db.Column(db.Date(), onupdate=datetime.now(),nullable=False)
+
+    def __init__(self, end_point,error):
+        self.end_point = end_point
+        self.error = error
+        self.updated_at = datetime.now()
+    
+    def serialize(self):
+        return{
+            'id': self.id,
+            'end_point': self.end_point,
+            'error':self.error,
+            'updated_at':self.updated_at
+        }
+        
