@@ -1,10 +1,10 @@
 {% extends "base.html" %}
 
 
-{% block title %}Flasky{% endblock %}
-
+{% block title %}Bradoo_Test{% endblock %}
 {% block page_content %}
 <!-- Tab content -->
+<br>
 <div id="Vendor" class="tabcontent">
 
   <div class="table-title">
@@ -14,6 +14,7 @@
       </div>
     </div>
   </div>
+
   <table class="table table-hover">
     <thead>
       <tr class='row'>
@@ -21,6 +22,7 @@
         <th scope="col">NAME</th>
         <th scope="col">CNPJ</th>
         <th scope="col">CITY</th>
+        <th scope="col"></th>
         <th scope="col"></th>
         <th scope="col"></th>
       </tr>
@@ -32,36 +34,36 @@
         <td class='col-sm-2'>{{objeto.name}}</td>
         <td class='col-sm-2'>{{objeto.cnpj}}</td>
         <td class='col-sm-2'>{{objeto.city}}</td>
-        <td class='col-sm-1'><button class="btn btn-warning" onclick="editar({{objeto}})">Edit</button></td>
-        <td class='col-sm-1'><form action="/del/{{objeto.id}}" method="POST"> <button type="submit" class="btn btn-danger">Delete</button></form></td>
+        <td class='col-sm-1'><button data-toggle="modal" data-target="#vendorModal" class="btn btn-warning" onclick="editar({{objeto}})">Edit</button></td>
+        <td class='col-sm-1'><button type="button" class="btn btn-danger" onclick="excluir({{objeto.id}})">Delete</button>     </td>
+        <td class='col-sm-1'><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#productModal" data-whatever="@mdo">Insert Product</button></td>
         <td class='col-sm-1'><button class="btn btn-secondary"><a href="#">Detail</a></button></td>
       </tr>
       {% endfor %}
     </tbody>
   </table>-
-
-  
   <div class="col-sm-4">
-    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#vendorModal" data-whatever="@mdo">New Vendor</button>
+    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#vendorModal" onclick="new_vendor()">New Vendor</button>
     <button type="submit" class="btn btn-danger" onclick="checkbox_delete()">Delete Selected</button>
     
+    
+    <!-- MODAL VENDOR INSERT-->
     <div class="modal fade" id="vendorModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
       <div class="modal-dialog" role="document">
         <div class="modal-content">
           <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><input type="hidden" id="id-Vendor">
               <span aria-hidden="true">&times;</span>
             </button>
           </div>
           <div class="modal-body">
-            <form action="/registervendor" method="POST">
               <div class="form-group">
                 <label for="recipient-name" class="col-form-label">Name:</label>
-                <input type="text" class="form-control" id="new-nameVendor" name="name">
+                <input type="text" class="form-control" id="new-nameVendor" name="name" required>
               </div>
               <div class="form-group">
                 <label for="message-text" class="col-form-label">CNPJ:</label>
-                <input type="text" class="form-control" id="new-cnpjVendor" name="cnpj" onkeypress="return somenteNumeros(event)" onblur="validate_cnpj_bd()">
+                <input type="text" class="form-control" id="new-cnpjVendor" name="cnpj" onkeypress="return somenteNumeros(event)" onblur="validate_cnpj_bd('new-cnpjVendor')" required>
                 <div id="validateCNJ"></div>
               </div>
               <div class="form-group">
@@ -72,43 +74,48 @@
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
-            <button type="submit" class="btn btn-success" id="createVendor" disabled >Save</button>
+            <button type="submit" class="btn btn-success" id="createVendor" disabled onclick="register_vendor()" >Save</button>
           </form>
           </div>
         </div>
       </div>
     </div>
+      <!-- Produc VENDOR INSERT-->
+      <div class="modal fade" id="productModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <span><b>Product</b><span id="vendor-name-detail"></span></span>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <form>
+                <div class="form-group">
+                  <label for="recipient-name" class="col-form-label">Recipient:</label>
+                  <input type="text" class="form-control" id="recipient-name">
+                </div>
+                <div class="form-group">
+                  <label for="message-text" class="col-form-label">Message:</label>
+                  <textarea class="form-control" id="message-text"></textarea>
+                </div>
+              </form>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+              <button type="button" class="btn btn-primary">Send message</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
   </div>
   <br>
   <hr />
-
-  <!-- <section id="editar" class="sec-invisible">
-    <h2>Editar</h2>
-    <form id="editForm">
-      <div>
-        <label for="txtId">ID</label>
-        <input id="txtId" type="text" />
-      </div>
-      <div>
-        <label for="txtFirst">First</label>
-        <input id="txtFirst" type="text" />
-      </div>
-      <div>
-        <label for="txtLast">Last</label>
-        <input id="txtLast" type="text" />
-      </div>
-      <div>
-        <label for="txtHandle">Handle</label>
-        <input id="txtHandle" type="text" />
-      </div>
-      <div>
-        <button id="btnUpdate">Salvar edição</button>
-      </div>
-    </form>
-  </section> -->
 </div>
 
-
+<!-- PRODUCT LIST -->
 <div id="Product" class="tabcontent">
   <div class="table-title">
     <div class="row">
@@ -144,40 +151,10 @@
       {% endfor %}
     </tbody>s
   </table>
+  
   <!-- PRODUCT MODAL  -->
   
-  <div class="col-sm-4">
-    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#productModal" data-whatever="@mdo">New Product</button>
 
-    
-    <div class="modal fade" id="productModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-      <div class="modal-dialog" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </div>
-          <div class="modal-body">
-            <form>
-              <div class="form-group">
-                <label for="recipient-name" class="col-form-label">Recipient:</label>
-                <input type="text" class="form-control" id="recipient-name">
-              </div>
-              <div class="form-group">
-                <label for="message-text" class="col-form-label">Message:</label>
-                <textarea class="form-control" id="message-text"></textarea>
-              </div>
-            </form>
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            <button type="button" class="btn btn-primary">Send message</button>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
   <br>
   <hr />
 </div>

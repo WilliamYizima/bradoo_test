@@ -8,7 +8,7 @@ Bootstrap(app)
 
 app.config.from_object(os.environ['APP_SETTINGS'])
 #TODO retirar abaixo
-# app.config['SQLALCHEMY_DATABASE_URI'] = "postgresql://will:123456@localhost:5432/bradoo_test"
+app.config['SQLALCHEMY_DATABASE_URI'] = "postgresql://will:123456@localhost:5432/bradoo_test"
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db = SQLAlchemy(app)
@@ -17,7 +17,7 @@ db = SQLAlchemy(app)
 from models import Vendor,Product,Errors
 from helper import cnpj_without_mask
 
-@app.route('/list')
+@app.route('/')
 def list():
     #TODO alterar nome das variaǘeis
 
@@ -42,9 +42,12 @@ def list():
 #TODO melhorar o sistema de rotas
 @app.route("/registervendor",methods=['POST'])
 def add_vendor():
-    name=request.form.get('name')
-    cnpj=request.form.get('cnpj')
-    city=request.form.get('city')
+    
+    request_data = request.get_json()
+    
+    name = request_data['name']
+    cnpj = request_data['cnpj']
+    city = request_data['city']
 
     try:
         vendor=Vendor(
@@ -78,6 +81,27 @@ def add_product():
             return(str(e))
     return render_template("product_form.html")
 
+@app.route("/editvendor",methods=['POST'])
+def edit_vendor():
+
+    request_data = request.get_json()
+    id_= request_data['id-vendor']
+    name = request_data['name']
+    cnpj = request_data['cnpj']
+    city = request_data['city']
+    
+    try:
+        vendor = Vendor.query.filter_by(id = id_).first()
+        vendor.name = name
+        vendor.cnpj = cnpj
+        vendor.city = city
+        
+        db.session.commit()
+        return redirect(url_for('list'))
+    except Exception as e:
+        
+        return(str(e))
+    return render_template("list.html")
 
 @app.route('/get/<id_>')
 def get_id(id_):
@@ -91,7 +115,7 @@ def get_id(id_):
     except Exception as e:
         return (str(e))
 
-@app.route('/del/<id_>',methods=['POST'])
+@app.route('/del/<id_>',methods=['DELETE'])
 def delete_vendor(id_):
     try:
         #TODO ddelete products before vendor

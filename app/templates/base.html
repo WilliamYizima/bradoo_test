@@ -23,7 +23,8 @@
 
 <script>
   document.getElementById("defaultOpen").click();
-
+  var b = document.querySelector("#createVendor");
+//Validate CNPJ
   function cnpj(s) {
     let cnpj = s.replace(/[^\d]+/g, '')
 
@@ -58,34 +59,40 @@
 
     return calc(t) === d1 && calc(t + 1) === d2
   }
-
+  
   function maskCNPJ(n) {
     nMask = n.replace(/\D/g, '')
       .replace(/^(\d{2})(\d{3})?(\d{3})?(\d{4})?(\d{2})?/, "$1.$2.$3/$4-$5")
     return nMask
   }
 
-  function validate_cnpj_bd() {
+  function validate_cnpj_bd(e) {
     
-    cnj_capturado = document.getElementById("new-cnpjVendor").value
-    document.getElementById("new-cnpjVendor").value = maskCNPJ(cnj_capturado)
-    var b = document.querySelector("#createVendor");
+    var cnj_capturado = document.getElementById(e).value
+    document.getElementById(e).value = maskCNPJ(cnj_capturado)
+    var id_ = document.querySelector("#id-Vendor");
+    
     if (cnpj(cnj_capturado) == false) {
           document.getElementById("validateCNJ").innerHTML = "Invalid CNPJ"
           b.setAttribute("disabled", "disabled");
+
         }
         else {
     n = cnj_capturado.replace('.', '').replace('-', '').replace('/', '').replace('.', '');
 
     fetch("/get_cnj/" + n)
       .then(response => response.json().then(data => {
+        
           console.log(data)
           if (data['cnpj'] != 'CNPJ not found') {
             document.getElementById("validateCNJ").innerHTML = "CNPJ already exists"
+            if (id_<0){
             b.setAttribute("disabled", "disabled");
+            }else{b.removeAttribute("disabled");}
           } else {
             document.getElementById("validateCNJ").innerHTML = "CNPJ Accepted"
             b.removeAttribute("disabled");
+
           }
         }
       )
@@ -111,8 +118,6 @@
     // console.log(response_cnpj)
   }
 
-
-
   function somenteNumeros(e) {
     var charCode = e.charCode ? e.charCode : e.keyCode;
     if (charCode != 8 && charCode != 9) {
@@ -121,6 +126,7 @@
       }
     }
   }
+//Delete Vendor
   function checkbox_delete() {
 
     var textinputs = document.querySelectorAll('input[type=checkbox]');
@@ -132,6 +138,44 @@
     xmlhttp.open("POST", "/del/combo");
     xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
     xmlhttp.send(req_json);
+  }
+//Register Vendor
+  function register_vendor(){
+    var id = document.querySelector('#id-Vendor').value;
+    var name = document.querySelector('#new-nameVendor').value;
+    var cnpj = document.querySelector('#new-cnpjVendor').value;
+    var city = document.querySelector('#new-cityVendor').value;
+
+    if(id==''){
+      var req_json = JSON.stringify({ 
+                                    "name": name,
+                                    "cnpj": cnpj,
+                                    "city": city});
+      var xmlhttp = new XMLHttpRequest();   // new HttpRequest instance 
+      xmlhttp.open("POST", "/registervendor");
+      xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+      xmlhttp.send(req_json);
+    }else{
+      var req_json = JSON.stringify({ 
+                                    "id-vendor": id,
+                                    "name": name,
+                                    "cnpj": cnpj,
+                                    "city": city});
+      var xmlhttp = new XMLHttpRequest();   // new HttpRequest instance 
+      xmlhttp.open("POST", "/editvendor");
+      xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+      xmlhttp.send(req_json);
+    }
+
+    new_vendor();
+    location.reload();
+  }
+
+  function new_vendor() {
+    document.getElementById('new-nameVendor').value = '';
+    document.getElementById('new-cnpjVendor').value = '';
+    document.getElementById('new-cityVendor').value = '';
+    document.getElementById('id-Vendor').value = '';
   }
   editSectionElement = document.querySelector("#editar");
   btnUpdate = document.querySelector("#btnUpdate")
@@ -165,17 +209,32 @@
 
     myElement = document.querySelector(`tr[data-id="${id}"]`)
     myElement.remove()
-
+    var xmlhttp = new XMLHttpRequest();   // new HttpRequest instance 
+    xmlhttp.open("DELETE", "/del/"+id,true);
+    xmlhttp.onload = function () {
+            var users = JSON.parse(xmlhttp.responseText);
+            if (xmlhttp.readyState == 4 && xmlhttp.status == "200") {
+              console.table(users);
+            } else {
+              console.error(users);
+            }
+          }
+    xmlhttp.send(null);
   }
 
-  function editar(dataPeople) {
-    editSectionElement.classList.add("sec-show");
-    txtId.value = dataPeople.id
-    txtFirst.value = dataPeople.First
-    txtLast.value = dataPeople.Last
-    txtHandle.value = dataPeople.Handle
-  }
+  function editar(objeto) {
+    document.getElementById('new-nameVendor').value = objeto.name;
+    document.getElementById('new-cnpjVendor').value = objeto.cnpj;
+    document.getElementById('new-cityVendor').value = objeto.city;
+    document.getElementById('id-Vendor').value = objeto.id;
+    b.removeAttribute("disabled");
 
+    // editSectionElement.classList.add("sec-show");
+    // txtId.value = dataPeople.id
+    // txtFirst.value = dataPeople.First
+    // txtLast.value = dataPeople.Last
+    // txtHandle.value = dataPeople.Handle
+  }
 
   function openCity(evt, cityName) {
     // Declare all variables
