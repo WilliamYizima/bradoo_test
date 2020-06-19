@@ -1,0 +1,52 @@
+<form>
+    <input id="txtNome" type="text" placeholder="Escreva seu nome"/>
+    <button id="btnAdicionarNovo">Adicionar novo</button>
+    <button id="btnAtualizarLista">Atualizar lista</button>
+    <button id="btnEnviarBanco">Enviar pro banco</button>
+</form>
+<ul id="listaNomes"></ul>
+<script>
+    // Elementos
+    let elListaNomes = document.querySelector("#listaNomes");
+    let elTxtNome = document.querySelector("#txtNome");
+    let elBtnAdicionarNovo = document.querySelector("#btnAdicionarNovo");
+    let elBtnAtualizarLista = document.querySelector("#btnAtualizarLista");
+    let elBtnEnviarBanco = document.querySelector("#btnEnviarBanco");
+    // Lista temporária
+    let nomes = [];
+    // Adicionar novo nome na lista
+    function adicionarNomeLista(nome){
+        let elLi = document.createElement('li');
+        elLi.innerText = nome;
+        elListaNomes.append(elLi);
+    };
+    // Atualizar lista
+    function atualizarLista(nomes){
+        let template = "";
+        nomes.forEach(nome => {
+            template += `
+                <li>${nome} - :D</li>
+            `;
+        });
+        elListaNomes.innerHTML = template;
+    };
+    // Eventos
+    elBtnAdicionarNovo.addEventListener("click", e => {
+        e.preventDefault();
+        // Adicionar novo nome
+        nomes.push(elTxtNome.value);
+        // Atualizar lista
+        adicionarNomeLista(elTxtNome.value);
+        // Limpar campo nome
+        elTxtNome.value = "";
+    });
+    elBtnAtualizarLista.addEventListener("click", e => {
+        e.preventDefault();
+        atualizarLista(nomes);
+    });
+    elBtnEnviarBanco.addEventListener("click", e => {
+        e.preventDefault();
+        console.log('Estou enviando a seguinte lista...');
+        console.info(nomes);
+    });
+</script>

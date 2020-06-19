@@ -34,10 +34,9 @@ def list():
 
 # @app.route('/register')
 # def register():
-#     #TODO validar o cnpj
+#     
 #     #TODO id no BD
-#     #TODO CNPJ unique
-      #TODO Tratamento para mascara CNPJ
+#     
 #     return render_template('vendor_form.html')
 #TODO melhorar o sistema de rotas
 @app.route("/registervendor",methods=['POST'])
@@ -62,7 +61,7 @@ def add_vendor():
         return(str(e))
     return render_template("list.html")
 
-@app.route("/registerproduct",methods=['GET', 'POST'])
+@app.route("/registerproduct",methods=['POST'])
 def add_product():
     if request.method == 'POST':
         name=request.form.get('name')
@@ -76,16 +75,16 @@ def add_product():
             )
             db.session.add(product)
             db.session.commit()
-            return "Vendor added. book id={}".format(product.id)
+            return redirect(url_for('list'))
         except Exception as e:
             return(str(e))
-    return render_template("product_form.html")
+    return render_template("list.html")
 
 @app.route("/editvendor",methods=['POST'])
 def edit_vendor():
 
     request_data = request.get_json()
-    id_= request_data['id-vendor']
+    id_= request_data['id_vendor']
     name = request_data['name']
     cnpj = request_data['cnpj']
     city = request_data['city']
@@ -103,27 +102,26 @@ def edit_vendor():
         return(str(e))
     return render_template("list.html")
 
-@app.route('/get/<id_>')
+@app.route('/get/<int:id_>')
 def get_id(id_):
     try:
-        product=Product.query.filter_by(id=id_).first()
-        product_id =(product.serialize())
-        
-
-        return render_template('detail.html',
-                                product = product_id)
+        vendor = Vendor.query.filter_by(id=id_).first()
+        vendor_id =vendor.serialize()
+        print(vendor_id)
+        return render_template('list.html',
+                                vendor_id = vendor_id)
     except Exception as e:
         return (str(e))
 
-@app.route('/del/<id_>',methods=['DELETE'])
+@app.route('/del/<int:id_>',methods=['DELETE'])
 def delete_vendor(id_):
     try:
         #TODO ddelete products before vendor
         vendor=Vendor.query.filter_by(id=id_).delete()
         db.session.commit()
-        return redirect(url_for('list'))
+        return {'message':'deletado'}
     except Exception as e:
-        return redirect(url_for('list'))
+        return {'error':e}
 
 @app.route('/del/combo',methods=['POST'])
 def delete_combo():   
@@ -145,7 +143,7 @@ def delete_combo():
         db.session.commit()
         return redirect(url_for('list'))
 
-@app.route('/get_cnj/<cnpj>')
+@app.route('/get_cnj/<string:cnpj>')
 def get_cnpj(cnpj):
     try:
         vendor_cnpj = {'cnpj':'CNPJ not found'}
@@ -164,6 +162,5 @@ def get_cnpj(cnpj):
         return 'I have A Problem'
 
     
-
 if __name__ == "__main__":
     app.run(port=5000, debug=True)

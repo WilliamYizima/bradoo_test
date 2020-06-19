@@ -1,15 +1,15 @@
 {% extends "bootstrap/base.html" %}
 {% block head %}
 {{ super() }}
-<script src="{{ url_for('static', filename='js/validation_cnpj.js')}}"></script>
 <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css')}}">
+<script src="{{ url_for('static', filename='js/index.js')}}"></script>
 {% endblock %}
 {% block title %}BRADOO_TEST{% endblock %}
 
 {% block navbar %}
 <div class="tab">
-  <button class="tablinks" onclick="openCity(event, 'Vendor')" id="defaultOpen">Vendor</button>
-  <button class="tablinks" onclick="openCity(event, 'Product')">Products</button>
+  <button class="tablinks" onclick="openCity(event, 'Vendor')" id="defaultOpen"><a href='/'>Vendor</a></button>
+  <button class="tablinks detailOpen" onclick="openCity(event, 'Product')" id="detailOpen" >Detail Vendor</button>
 
 </div>
 {% endblock %}
@@ -20,171 +20,23 @@
   {% block page_content %}{% endblock %}
 
 </div>
+<script src="{{ url_for('static', filename='js/validation_cnpj.js')}}"></script>
+<script src="{{ url_for('static', filename='js/modal_buttons.js')}}"></script>
 
 <script>
-  document.getElementById("defaultOpen").click();
-  var b = document.querySelector("#createVendor");
-//Validate CNPJ
-  function cnpj(s) {
-    let cnpj = s.replace(/[^\d]+/g, '')
-
-    // Valida a quantidade de caracteres
-    if (cnpj.length !== 14)
-      return false
-
-    // Elimina inválidos com todos os caracteres iguais
-    if (/^(\d)\1+$/.test(cnpj))
-      return false
-
-    // Cáculo de validação
-    let t = cnpj.length - 2,
-      d = cnpj.substring(t),
-      d1 = parseInt(d.charAt(0)),
-      d2 = parseInt(d.charAt(1)),
-      calc = x => {
-        let n = cnpj.substring(0, x),
-          y = x - 7,
-          s = 0,
-          r = 0
-
-        for (let i = x; i >= 1; i--) {
-          s += n.charAt(x - i) * y--;
-          if (y < 2)
-            y = 9
-        }
-
-        r = 11 - s % 11
-        return r > 9 ? 0 : r
-      }
-
-    return calc(t) === d1 && calc(t + 1) === d2
-  }
+  // document.getElementById("defaultOpen").click();
   
-  function maskCNPJ(n) {
-    nMask = n.replace(/\D/g, '')
-      .replace(/^(\d{2})(\d{3})?(\d{3})?(\d{4})?(\d{2})?/, "$1.$2.$3/$4-$5")
-    return nMask
-  }
 
-  function validate_cnpj_bd(e) {
-    
-    var cnj_capturado = document.getElementById(e).value
-    document.getElementById(e).value = maskCNPJ(cnj_capturado)
-    var id_ = document.querySelector("#id-Vendor");
-    
-    if (cnpj(cnj_capturado) == false) {
-          document.getElementById("validateCNJ").innerHTML = "Invalid CNPJ"
-          b.setAttribute("disabled", "disabled");
+  //Register Vendor
 
-        }
-        else {
-    n = cnj_capturado.replace('.', '').replace('-', '').replace('/', '').replace('.', '');
-
-    fetch("/get_cnj/" + n)
-      .then(response => response.json().then(data => {
-        
-          console.log(data)
-          if (data['cnpj'] != 'CNPJ not found') {
-            document.getElementById("validateCNJ").innerHTML = "CNPJ already exists"
-            if (id_<0){
-            b.setAttribute("disabled", "disabled");
-            }else{b.removeAttribute("disabled");}
-          } else {
-            document.getElementById("validateCNJ").innerHTML = "CNPJ Accepted"
-            b.removeAttribute("disabled");
-
-          }
-        }
-      )
-      )
-      .catch(function (err) {
-        console.error('Failed retrieving information', err);
-      });}
-    // var xmlhttp = new XMLHttpRequest();
-    // xmlhttp.open("GET", "/get_cnj/"+n);
-    // xmlhttp.onload = function () {
-    // if (xmlhttp.readyState === xmlhttp.DONE) {
-    //     if (xmlhttp.status === 200) {
-    //       response_cnpj = xmlhttp.response;
-    //       if (response_cnpj['cnpj']!=''){
-    //         return false
-    //       }else{
-    //         return true
-    //       }
-    //     }
-    //   }
-    // };
-    // xmlhttp.send('');
-    // console.log(response_cnpj)
-  }
-
-  function somenteNumeros(e) {
-    var charCode = e.charCode ? e.charCode : e.keyCode;
-    if (charCode != 8 && charCode != 9) {
-      if (charCode < 48 || charCode > 57) {
-        return false;
-      }
-    }
-  }
-//Delete Vendor
-  function checkbox_delete() {
-
-    var textinputs = document.querySelectorAll('input[type=checkbox]');
-    var vendor_checked = [].filter.call(textinputs, function (el) { return el.checked });
-    var vendor_list = [];
-    for (i = 0; i < vendor_checked.length; i++) { vendor_list.push(vendor_checked[i].attributes.value.textContent) };
-    var req_json = JSON.stringify({ "vendor_list": vendor_list });
-    var xmlhttp = new XMLHttpRequest();   // new HttpRequest instance 
-    xmlhttp.open("POST", "/del/combo");
-    xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
-    xmlhttp.send(req_json);
-  }
-//Register Vendor
-  function register_vendor(){
-    var id = document.querySelector('#id-Vendor').value;
-    var name = document.querySelector('#new-nameVendor').value;
-    var cnpj = document.querySelector('#new-cnpjVendor').value;
-    var city = document.querySelector('#new-cityVendor').value;
-
-    if(id==''){
-      var req_json = JSON.stringify({ 
-                                    "name": name,
-                                    "cnpj": cnpj,
-                                    "city": city});
-      var xmlhttp = new XMLHttpRequest();   // new HttpRequest instance 
-      xmlhttp.open("POST", "/registervendor");
-      xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
-      xmlhttp.send(req_json);
-    }else{
-      var req_json = JSON.stringify({ 
-                                    "id-vendor": id,
-                                    "name": name,
-                                    "cnpj": cnpj,
-                                    "city": city});
-      var xmlhttp = new XMLHttpRequest();   // new HttpRequest instance 
-      xmlhttp.open("POST", "/editvendor");
-      xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
-      xmlhttp.send(req_json);
-    }
-
-    new_vendor();
-    location.reload();
-  }
-
-  function new_vendor() {
-    document.getElementById('new-nameVendor').value = '';
-    document.getElementById('new-cnpjVendor').value = '';
-    document.getElementById('new-cityVendor').value = '';
-    document.getElementById('id-Vendor').value = '';
-  }
   editSectionElement = document.querySelector("#editar");
   btnUpdate = document.querySelector("#btnUpdate")
 
   // Fields
-  txtId = document.querySelector("#txtId");
-  txtFirst = document.querySelector("#txtFirst");
-  txtLast = document.querySelector("#txtLast");
-  txtHandle = document.querySelector("#txtHandle");
+  // txtId = document.querySelector("#txtId");
+  // txtFirst = document.querySelector("#txtFirst");
+  // txtLast = document.querySelector("#txtLast");
+  // txtHandle = document.querySelector("#txtHandle");
 
   // Event Listener
   // btnUpdate.addEventListener("click", (e, data) => {
@@ -205,57 +57,6 @@
 
   // })
 
-  function excluir(id) {
-
-    myElement = document.querySelector(`tr[data-id="${id}"]`)
-    myElement.remove()
-    var xmlhttp = new XMLHttpRequest();   // new HttpRequest instance 
-    xmlhttp.open("DELETE", "/del/"+id,true);
-    xmlhttp.onload = function () {
-            var users = JSON.parse(xmlhttp.responseText);
-            if (xmlhttp.readyState == 4 && xmlhttp.status == "200") {
-              console.table(users);
-            } else {
-              console.error(users);
-            }
-          }
-    xmlhttp.send(null);
-  }
-
-  function editar(objeto) {
-    document.getElementById('new-nameVendor').value = objeto.name;
-    document.getElementById('new-cnpjVendor').value = objeto.cnpj;
-    document.getElementById('new-cityVendor').value = objeto.city;
-    document.getElementById('id-Vendor').value = objeto.id;
-    b.removeAttribute("disabled");
-
-    // editSectionElement.classList.add("sec-show");
-    // txtId.value = dataPeople.id
-    // txtFirst.value = dataPeople.First
-    // txtLast.value = dataPeople.Last
-    // txtHandle.value = dataPeople.Handle
-  }
-
-  function openCity(evt, cityName) {
-    // Declare all variables
-    var i, tabcontent, tablinks;
-
-    // Get all elements with class="tabcontent" and hide them
-    tabcontent = document.getElementsByClassName("tabcontent");
-    for (i = 0; i < tabcontent.length; i++) {
-      tabcontent[i].style.display = "none";
-    }
-
-    // Get all elements with class="tablinks" and remove the class "active"
-    tablinks = document.getElementsByClassName("tablinks");
-    for (i = 0; i < tablinks.length; i++) {
-      tablinks[i].className = tablinks[i].className.replace(" active", "");
-    }
-
-    // Show the current tab, and add an "active" class to the button that opened the tab
-    document.getElementById(cityName).style.display = "block";
-    evt.currentTarget.className += " active";
-  }
 </script>
 
 <style>
