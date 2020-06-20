@@ -14,15 +14,15 @@ def create_app():
     app.config['JSON_AS_ASCII'] = False
     url_database_dev = "postgresql://will:123456@localhost:5432/bradoo_test"
     app.config['SQLALCHEMY_DATABASE_URI'] = url_database_dev
-    
+
     config_db(app)
     config_ma(app)
 
     Migrate(app, app.db)
 
-    from routes import vendor,page
+    from routes import vendor, page
     app.register_blueprint(page.page)
-    app.register_blueprint(vendor.vendor,url_prefix='/vendor')
+    app.register_blueprint(vendor.vendor, url_prefix='/vendor')
 
     return app
 
@@ -45,15 +45,8 @@ def create_app():
 #         except Exception as e:
 #             return(str(e))
 #     return render_template("list.html")
-
+#
 # 
-
-
-
-
-
-# 
-
 # @app.route('/get_cnj/<string:cnpj>')
 # def get_cnpj(cnpj):
     # try:
