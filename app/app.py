@@ -62,5 +62,5 @@ def create_app():
     #     db.session.add(error)
     #     db.session.commit()
     #     return 'I have A Problem'
-if __name__ == "__main__":  
+if __name__ == "__main__":
     create_app()
