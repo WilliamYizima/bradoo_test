@@ -62,7 +62,5 @@ def create_app():
     #     db.session.add(error)
     #     db.session.commit()
     #     return 'I have A Problem'
-if __name__ == "__main__":
-
-    
-    app.run(port=5000, debug=True)
+if __name__ == "__main__":  
+    create_app()
