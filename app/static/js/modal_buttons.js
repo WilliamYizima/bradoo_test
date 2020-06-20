@@ -1,29 +1,30 @@
 var b = document.querySelector("#createVendor");
 
 function register_vendor(id,name,cnpj,city) {
-    var req_json = JSON.stringify({
+    var req_json = {
       "name": name,
       "cnpj": cnpj,
       "city": city,
       "id_vendor":id
-    });
+    };
     if (id == '') {
-        console.log('novo registro')
+      delete req_json['id_vendor'];
+      req_json = JSON.stringify(req_json)
       var xmlhttp = new XMLHttpRequest();
       xmlhttp.open("POST", "/registervendor");
       xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
       xmlhttp.send(req_json);
     } else {
-        req_json.id_vendor = id;
+      req_json.id_vendor = id;
       var xmlhttp = new XMLHttpRequest();
       xmlhttp.open("POST", "/editvendor");
       xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
       xmlhttp.send(req_json);
     }
 
-    new_vendor();
+    blank_vendor();
     $('#vendorModal').modal('hide');
-    window.location.reload();
+    // window.location.reload();
   }
 
   function validation_form() {
@@ -45,7 +46,7 @@ function register_vendor(id,name,cnpj,city) {
     b.removeAttribute("disabled");
   }
 
-  function new_vendor() {
+  function blank_vendor() {
     document.getElementById('new-nameVendor').value = '';
     document.getElementById('new-cnpjVendor').value = '';
     document.getElementById('new-cityVendor').value = '';

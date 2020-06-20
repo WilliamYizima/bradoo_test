@@ -1,7 +1,12 @@
 from datetime import datetime
-
-from app import db
+from flask_sqlalchemy import SQLAlchemy
 from helper import cnpj_mask
+
+db = SQLAlchemy()
+
+def configure(app):
+    db.init_app(app)
+    app.db = db
 
 class Vendor(db.Model):
     
@@ -54,6 +59,8 @@ class Product(db.Model):
             'price': 'R${:20,.2f}'.format(self.price),
             'vendor_id': self.city
         }
+    
+
 class Errors(db.Model):
 
     id = db.Column(db.Integer,primary_key = True)
@@ -73,4 +80,5 @@ class Errors(db.Model):
             'error':self.error,
             'updated_at':self.updated_at
         }
+
         
