@@ -1,23 +1,19 @@
 var b = document.querySelector("#createVendor");
 
 function register_vendor(id,name,cnpj,city) {
-    var req_json = {
+    var req_json = JSON.stringify({
       "name": name,
       "cnpj": cnpj,
-      "city": city,
-      "id_vendor":id
-    };
+      "city": city
+    });
     if (id == '') {
-      delete req_json['id_vendor'];
-      req_json = JSON.stringify(req_json)
       var xmlhttp = new XMLHttpRequest();
-      xmlhttp.open("POST", "/registervendor");
+      xmlhttp.open("POST", "/vendor/registervendor");
       xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
       xmlhttp.send(req_json);
     } else {
-      req_json.id_vendor = id;
       var xmlhttp = new XMLHttpRequest();
-      xmlhttp.open("POST", "/editvendor");
+      xmlhttp.open("PUT", `/vendor/edit/${id}`);
       xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
       xmlhttp.send(req_json);
     }
@@ -66,7 +62,7 @@ function register_vendor(id,name,cnpj,city) {
     myElement = document.querySelector(`tr[data-id="${id}"]`)
     myElement.remove()
 
-    let response = await fetch(`http://127.0.0.1:5000/del/${id}`, {
+    let response = await fetch(`vendor/${id}`, {
       method: 'DELETE',
     });
   }

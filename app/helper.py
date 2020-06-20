@@ -5,4 +5,5 @@ def cnpj_without_mask(cnpj):
     return cnpj
 
 def cnpj_mask(cnpj):
-    return "%s.%s.%s/%s-%s" % ( cnpj[0:2], cnpj[2:5], cnpj[5:8], cnpj[8:12], cnpj[12:14] )
+    cnpj_clear = cnpj_without_mask(cnpj)
+    return "%s.%s.%s/%s-%s" % ( cnpj_clear[0:2], cnpj_clear[2:5], cnpj_clear[5:8], cnpj_clear[8:12], cnpj_clear[12:14] )
