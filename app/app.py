@@ -5,18 +5,6 @@ from flask_bootstrap import Bootstrap
 from models import configure as config_db
 from serialize import configure as config_ma
 from flask_migrate import Migrate, MigrateCommand
-# from flask_sqlalchemy import SQLAlchemy
-
-
-# app = Flask(__name__)
-# Bootstrap(app)
-
-# app.config.from_object(os.environ['APP_SETTINGS'])
-#TODO retirar abaixo
-# app.config['SQLALCHEMY_DATABASE_URI'] = "postgresql://will:123456@localhost:5432/bradoo_test"
-# app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-
-# db = SQLAlchemy(app)
 
 def create_app():
     app = Flask(__name__)
@@ -36,14 +24,6 @@ def create_app():
 
     return app
 
-
-# # @app.route('/register')
-# # def register():
-# #     
-# #     #TODO id no BD
-# #     
-# #     return render_template('vendor_form.html')
-# #TODO melhorar o sistema de rotas
 
 # @app.route("/registerproduct",methods=['POST'])
 # def add_product():
