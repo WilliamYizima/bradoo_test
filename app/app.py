@@ -12,8 +12,8 @@ def create_app():
     Bootstrap(app)
     app.config.from_object(os.environ['APP_SETTINGS'])
     app.config['JSON_AS_ASCII'] = False
-    app.config['SQLALCHEMY_DATABASE_URI'] = (
-                            "postgresql://will:123456@localhost:5432/bradoo_test")
+    url_database_dev = "postgresql://will:123456@localhost:5432/bradoo_test"
+    app.config['SQLALCHEMY_DATABASE_URI'] = url_database_dev
     
     config_db(app)
     config_ma(app)
