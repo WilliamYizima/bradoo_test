@@ -4,14 +4,16 @@ from flask import Flask
 from flask_bootstrap import Bootstrap
 from models import configure as config_db
 from serialize import configure as config_ma
-from flask_migrate import Migrate, MigrateCommand
+from flask_migrate import Migrate
+
 
 def create_app():
     app = Flask(__name__)
     Bootstrap(app)
     app.config.from_object(os.environ['APP_SETTINGS'])
     app.config['JSON_AS_ASCII'] = False
-    app.config['SQLALCHEMY_DATABASE_URI'] = "postgresql://will:123456@localhost:5432/bradoo_test"
+    app.config['SQLALCHEMY_DATABASE_URI'] = (
+                            "postgresql://will:123456@localhost:5432/bradoo_test")
     
     config_db(app)
     config_ma(app)
