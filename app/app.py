@@ -25,8 +25,6 @@ def create_app():
     app.register_blueprint(vendor.vendor, url_prefix='/vendor')
 
     return app
-
-
 # @app.route("/registerproduct",methods=['POST'])
 # def add_product():
 #     if request.method == 'POST':
@@ -64,7 +62,5 @@ def create_app():
     #     db.session.add(error)
     #     db.session.commit()
     #     return 'I have A Problem'
-
-    
 if __name__ == "__main__":
     app.run(port=5000, debug=True)
