@@ -1,6 +1,6 @@
 import os
 
-from flask import Flask,render_template,request,redirect,url_for
+from flask import Flask
 from flask_bootstrap import Bootstrap
 from models import configure as config_db
 from serialize import configure as config_ma
