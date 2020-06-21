@@ -1,4 +1,4 @@
-from flask import Blueprint, request, render_template,redirect
+from flask import Blueprint, request, render_template, redirect, url_for
 from models import Vendor
 
 
@@ -31,7 +31,7 @@ def get_id(id_):
 
 
 @page.route('/del/combo', methods=['POST'])
-def delete_combo():   
+def delete_combo():
     try:
         vendor_list = request.get_json()
         for vendor_id in vendor_list['vendor_list']:
@@ -40,11 +40,11 @@ def delete_combo():
         return redirect(url_for('list'))
 
     except Exception as e:
-        
-        error=Errors(
+
+        error = Errors(
             end_point='/del/combo',
             error=e
         )
-        db.session.add(vendor)
+        db.session.add(error)
         db.session.commit()
         return redirect(url_for('list'))
