@@ -66,9 +66,9 @@ class Product(db.Model):
 
 class Errors(db.Model):
 
-    id = db.Column(db.Integer, primary_key = True)
-    end_point = db.Column(db.String(), nullable = False, unique = False)
-    error = db.Column(db.String(), nullable = False, unique = False)
+    id = db.Column(db.Integer, primary_key=True)
+    end_point = db.Column(db.String(), nullable=False, unique=False)
+    error = db.Column(db.String(), nullable=False, unique=False)
     updated_at = db.Column(db.Date(), onupdate=datetime.now(), nullable=False)
 
     def __init__(self, end_point, error):
