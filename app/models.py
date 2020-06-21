@@ -37,12 +37,13 @@ class Vendor(db.Model):
 
 class Product(db.Model):
 
-
     id = db.Column(db.Integer, primary_key=True)
     code = db.Column(db.String, nullable=False, unique=True)
     name = db.Column(db.String(),nullable=False, unique=False)
     price = db.Column(db.Float(), nullable=False, unique=False)
-    vendor_id = db.Column(db.Integer, db.ForeignKey('vendor.id'), nullable=False)
+    vendor_id = db.Column(db.Integer, 
+                          db.ForeignKey('vendor.id'),
+                          nullable=False)
 
     def __init__(self, code, name, vendor_id, price=0.00):
         self.name = name
