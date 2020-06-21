@@ -17,9 +17,8 @@ function openCity(evt, cityName) {
     // Show the current tab, and add an "active" class to the button that opened the tab
     document.getElementById(cityName).style.display = "block";
     evt.currentTarget.className += " active";
-    console.log('faoi')
     if (cityName == 'Vendor'){
         document.getElementById("detailOpen").style.visibility = "hidden"
-        console.log('foi')
+        window.location.assign("/");
     }
   }

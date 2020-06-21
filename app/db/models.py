@@ -60,7 +60,7 @@ class Product(db.Model):
             'code': self.code,
             'name': self.name,
             'price': 'R${:20,.2f}'.format(self.price),
-            'vendor_id': self.city
+            'vendor_id': self.vendor_id
         }
 
 

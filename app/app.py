@@ -20,9 +20,10 @@ def create_app():
 
     Migrate(app, app.db)
 
-    from routes import vendor, page
+    from routes import vendor, page, product
     app.register_blueprint(page.page)
     app.register_blueprint(vendor.vendor, url_prefix='/vendor')
+    app.register_blueprint(product.product, url_prefix='/product')
 
     return app
 

@@ -37,7 +37,7 @@
         <td class='col-sm-1'><button data-toggle="modal" data-target="#vendorModal" class="btn btn-warning" onclick="editar({{objeto}})">Edit</button></td>
         <td class='col-sm-1'><button type="button" class="btn btn-danger" onclick="excluir({{objeto.id}})">Delete</button>     </td>
         <!-- <td class='col-sm-1'><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#productModal" data-whatever="@mdo">Insert Product</button></td> -->
-        <td class='col-sm-1'><button class="btn btn-secondary" ><a href="get/{{objeto.id}}">Insert Product</a></button></td>
+        <td class='col-sm-1'><a class="btn btn-primary" href="get/{{objeto.id}}">Insert Product</a></td>
       </tr>
       {% endfor %}
     </tbody>
@@ -72,16 +72,6 @@
                 <label for="message-text" class="col-form-label">City:</label>
                 <input type="text" class="form-control" id="new-cityVendor" name="city"></textarea>
               </div>
-              <!-- <div class="form-group">
-                <label for="message-text" class="col-form-label">City:</label>
-                <input type="text" class="form-control" id="new-cityVendor" name="city"></textarea>
-              </div> -->
-              #TODO insert tags multiple for PRODUCT
-              <div class="form-group mx-sm-3 mb-2">
-                <label for="product" class="col-form-label">Product</label>
-                <input type="text" class="form-control" id="product" placeholder="New Product">
-              </div>
-              <button type="submit" class="btn btn-primary mb-2">Confirm identity</button>
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
@@ -133,33 +123,85 @@
   <div class="table-title">
     <div class="row">
       <div class="col-sm-8">
-        <h2>Product <b>Details</b></h2>
+        <h2>Vendor <b>Details</b></h2>
       </div>
-      
     </div>
   </div>
+  <br>
+  <form action='/registerproduct' method='POST'>
+    <input type="hidden" readonly class="form-control" id="inputEmail" name="vendor_id"value="{{vendor_id.id}}">
+    <div class="form-group row">
+        <label for="inputEmail" class="col-sm-2 col-form-label">Name</label>
+        <div class="col-sm-6">
+            <input type="text" name="vendor_name" readonly class="form-control" id="inputEmail" value="{{vendor_id.name}}">
+        </div>
+    </div>
+    <div class="form-group row">
+        <label for="inputPassword" class="col-sm-2 col-form-label">CNPJ</label>
+        <div class="col-sm-6">
+          <input type="text" name="vendor_cnpj" readonly class="form-control" id="inputEmail" value="{{vendor_id.cnpj}}">
+      </div>
+    </div>
+    <div class="form-group row">
+      <label for="inputPassword" class="col-sm-2 col-form-label">CITY</label>
+      <div class="col-sm-6">
+        <input type="text" name="vendor_city" readonly class="form-control" id="inputEmail" value="{{vendor_id.city}}">
+    </div>
+    </div>
+    <div class="form-group row">
+      <label for="inputPassword" class="col-sm-2 col-form-label">PRODUCT</label>
+      <div class="col-sm-6">
+        <input required type="text" name="name" class="form-control" id="inputEmail">
+    </div>
+    </div>
+    <div class="form-group row">
+      <label for="inputPassword" class="col-sm-2 col-form-label">CODE</label>
+      <div class="col-sm-6">
+        <input required type="text" name="code" class="form-control" id="inputEmail" >
+    </div>
+    </div>
+    <div class="form-group row">
+      <label for="inputPassword" class="col-sm-2 col-form-label">PRICE</label>
+      <div class="col-sm-6">
+        <input type="number" min="0" step="any" name="price" class="form-control" id="inputEmail" >
+    </div>
+    </div>
+    <div class="form-group row">
+        <div class="col-sm-10 offset-sm-2">
+            <button type="submit" class="btn btn-primary">Sign in</button>
+        </div>
+    </div>
+</form>
+<div class="table-title">
+  <div class="row">
+    <div class="col-sm-8">
+      <h2>Product <b>Details</b></h2>
+    </div>
+  </div>
+</div>
   <table class="table table-hover">
     <thead>
       <tr>
         <th scope="col">ITEM</th>
         <th scope="col">NAME</th>
-        <th scope="col">CNPJ</th>
-        <th scope="col">CITY</th>
+        <th scope="col">CODE</th>
+        <th scope="col">PRICE</th>
         <th scope="col"></th>
         <th scope="col"></th>
         <th scope="col"></th>
       </tr>
     </thead>
     <tbody>
+      {% for objeto in product%}
       <tr data-id="{{vendor_id.id}}">
-        <th scope="row">{{vendor_id.id}}</th>
-        <td class='col-sm-2'>{{vendor_id.name}}</td>
-        <td class='col-sm-2'>{{vendor_id.cnpj}}</td>
-        <td class='col-sm-2'>{{vendor_id.city}}</td>
-        <td class='col-sm-2'><button  onclick="excluir({{vendor_id.id}})">X</button></td>
+        <th scope="row">{{objeto.id}}</th>
+        <td class='col-sm-2'>{{objeto.name}}</td>
+        <td class='col-sm-2'>{{objeto.code}}</td>
+        <td class='col-sm-2'>{{objeto.price}}</td>
         <td class='col-sm-1'><button class="btn btn-warning" onclick="editar({{vendor_id}})">Editar</button></td>
-        <td class='col-sm-1'><button><a href="#">VER</a></button></td>
+        <td class='col-sm-1'><button type="button" class="btn btn-danger" onclick="excluir()">Delete</button>     </td>
       </tr>
+      {% endfor %}
     </tbody>
   </table>r
   <br>

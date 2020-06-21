@@ -13,11 +13,11 @@ class VendorSchema(ma.ModelSchema):
         model = Vendor
 
 
-class ProductSchema(ma.Schema):
+class ProductSchema(ma.ModelSchema):
     class Meta:
         model = Product
+        include_fk = True
 
-
-class ErrorsSchema(ma.Schema):
+class ErrorsSchema(ma.ModelSchema):
     class Meta:
         model = Errors
