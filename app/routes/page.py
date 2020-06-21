@@ -10,17 +10,18 @@ def list():
     try:
         vendor = Vendor.query.all()
         all_vendor = [e.serialize() for e in vendor]
-        
+
         return render_template('list.html',
                                 obj=all_vendor)
     except Exception as e:
         return(str(e))
-    return render_template('list.html',obj = obj)
+    return render_template('list.html', obj = obj)
+
 
 @page.route('/get/<int:id_>')
 def get_id(id_):
     try:
-        
+
         vendor = Vendor.query.filter_by(id=id_).first()
         vendor_id =vendor.serialize()
         return render_template('list.html',
