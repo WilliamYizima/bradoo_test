@@ -12,10 +12,10 @@ def configure(app):
 
 class Vendor(db.Model):
 
-    id = db.Column(db.Integer, primary_key = True)
-    name = db.Column(db.String(), nullable = False, unique = False)
-    cnpj = db.Column(db.String(), nullable = False, unique = True)
-    city = db.Column(db.String(), nullable = True, unique = False)
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(), nullable=False, unique=False)
+    cnpj = db.Column(db.String(), nullable=False, unique=True)
+    city = db.Column(db.String(), nullable=True, unique=False)
     product = db.relationship('Product',backref = 'vendor', lazy=True)
 
     def __init__(self, name,cnpj,city=''):
