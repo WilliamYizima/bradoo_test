@@ -18,7 +18,7 @@ class Vendor(db.Model):
     city = db.Column(db.String(), nullable=True, unique=False)
     product = db.relationship('Product', backref='vendor', lazy=True)
 
-    def __init__(self, name,cnpj,city=''):
+    def __init__(self, name, cnpj, city=''):
         self.name = name
         self.cnpj = cnpj
         self.city = city
@@ -43,7 +43,7 @@ class Product(db.Model):
     price = db.Column(db.Float(), nullable = False, unique = False)
     vendor_id = db.Column(db.Integer, db.ForeignKey('vendor.id'),nullable=False)
 
-    def __init__(self, code,name,vendor_id,price=0.00):
+    def __init__(self, code, name, vendor_id, price=0.00):
         self.name = name
         self.code = cnpj
         self.price = city
@@ -69,7 +69,7 @@ class Errors(db.Model):
     error = db.Column(db.String(),nullable = False, unique = False)
     updated_at = db.Column(db.Date(), onupdate=datetime.now(),nullable=False)
 
-    def __init__(self, end_point,error):
+    def __init__(self, end_point, error):
         self.end_point = end_point
         self.error = error
         self.updated_at = datetime.now()
