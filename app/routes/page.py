@@ -4,6 +4,7 @@ from models import Vendor
 
 page = Blueprint('page', __name__)
 
+
 @page.route('/')
 def list():
     try:
