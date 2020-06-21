@@ -4,9 +4,11 @@ from helper import cnpj_mask
 
 db = SQLAlchemy()
 
+
 def configure(app):
     db.init_app(app)
     app.db = db
+
 
 class Vendor(db.Model):
     
