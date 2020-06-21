@@ -1,8 +1,6 @@
-import json
-
-from flask import Blueprint, request, render_template, current_app
+from flask import Blueprint, request, render_template
 from models import Vendor
-from serialize import VendorSchema
+
 
 page = Blueprint('page', __name__)
 
