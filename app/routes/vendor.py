@@ -1,11 +1,12 @@
-from flask import Blueprint, request, jsonify, render_template, current_app
+from flask import Blueprint, request, jsonify, current_app
 from models import Vendor
 from serialize import VendorSchema
 
 
 vendor = Blueprint('vendor', __name__)
 
-@vendor.route("/register",methods=['POST'])
+
+@vendor.route("/register", methods=['POST'])
 def add_vendor():
     vs = VendorSchema()
     vendor = vs.load(request.json)
@@ -17,7 +18,7 @@ def add_vendor():
         print(str(e))
         return jsonify(content=e), 500
 
-@vendor.route('/<int:id_>',methods=['DELETE'])
+@vendor.route('/<int:id_>', methods=['DELETE'])
 def delete_vendor(id_):
     try:
             #TODO ddelete products before vendor
@@ -27,7 +28,7 @@ def delete_vendor(id_):
     except Exception as e:
         return {'error':e},500
 
-@vendor.route("/edit/<int:id_>",methods=['PUT'])
+@vendor.route("/edit/<int:id_>", methods=['PUT'])
 def edit_vendor(id_):
    
     try:
