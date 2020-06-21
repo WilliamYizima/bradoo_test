@@ -1,5 +1,5 @@
 from flask_marshmallow import Marshmallow
-from models import Vendor, Product, Errors
+from db.models import Vendor, Product, Errors
 
 ma = Marshmallow()
 

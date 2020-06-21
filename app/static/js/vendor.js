@@ -8,7 +8,7 @@ function register_vendor(id,name,cnpj,city) {
     });
     if (id == '') {
       var xmlhttp = new XMLHttpRequest();
-      xmlhttp.open("POST", "/vendor/registervendor");
+      xmlhttp.open("POST", "/vendor/register");
       xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
       xmlhttp.send(req_json);
     } else {
@@ -17,10 +17,9 @@ function register_vendor(id,name,cnpj,city) {
       xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
       xmlhttp.send(req_json);
     }
-
+    window.location.reload();
     blank_vendor();
-    $('#vendorModal').modal('hide');
-    // window.location.reload();
+    // $('#vendorModal').modal('hide');
   }
 
   function validation_form() {
@@ -34,7 +33,7 @@ function register_vendor(id,name,cnpj,city) {
         document.getElementById("invalid-name").innerHTML = "Invalid name";
         b.setAttribute("disabled", "disabled");
     }
-
+    
   }
 
   function input_name_validation(){

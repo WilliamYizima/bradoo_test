@@ -1,6 +1,6 @@
 from datetime import datetime
 from flask_sqlalchemy import SQLAlchemy
-from helper import cnpj_mask
+from helper.helper import cnpj_mask
 
 db = SQLAlchemy()
 

@@ -1,5 +1,5 @@
 from flask import Blueprint, request, render_template, redirect, url_for
-from models import Vendor
+from db.models import Vendor
 
 
 page = Blueprint('page', __name__)

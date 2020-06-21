@@ -1,6 +1,7 @@
 from flask import Blueprint, request, jsonify, current_app
-from models import Vendor
-from serialize import VendorSchema
+from db.models import Vendor
+from db.serialize import VendorSchema
+from helper.helper import cnpj_mask
 
 
 vendor = Blueprint('vendor', __name__)
@@ -43,3 +44,17 @@ def edit_vendor(id_):
     except Exception as e:
 
         return(str(e))
+
+@vendor.route('/get_cnj/<string:cnpj>')
+def get_cnpj(cnpj):
+    try:
+        vendor_cnpj = {'cnpj':'CNPJ not found'}
+        cnpj = cnpj_mask(cnpj)
+        print(cnpj)
+        vendor = Vendor.query.filter_by(cnpj=cnpj).first()
+        if(vendor):
+            vendor_cnpj =(vendor.serialize())
+        return vendor_cnpj 
+    except Exception as e:
+        print(e)
+        return 'I have A Problem'

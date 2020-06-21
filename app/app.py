@@ -2,8 +2,8 @@ import os
 
 from flask import Flask
 from flask_bootstrap import Bootstrap
-from models import configure as config_db
-from serialize import configure as config_ma
+from db.models import configure as config_db
+from db.serialize import configure as config_ma
 from flask_migrate import Migrate
 
 

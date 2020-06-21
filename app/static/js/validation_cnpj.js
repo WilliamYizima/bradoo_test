@@ -64,7 +64,7 @@ function validate_cnpj_bd(e) {
     else {
         n = cnj_capturado.replace('.', '').replace('-', '').replace('/', '').replace('.', '');
 
-        fetch("/get_cnj/" + n)
+        fetch("/vendor/get_cnj/" + n)
             .then(response => response.json().then(data => {
 
                 console.log(data)
