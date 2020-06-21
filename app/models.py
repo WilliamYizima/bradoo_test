@@ -16,7 +16,7 @@ class Vendor(db.Model):
     name = db.Column(db.String(), nullable=False, unique=False)
     cnpj = db.Column(db.String(), nullable=False, unique=True)
     city = db.Column(db.String(), nullable=True, unique=False)
-    product = db.relationship('Product',backref = 'vendor', lazy=True)
+    product = db.relationship('Product', backref='vendor', lazy=True)
 
     def __init__(self, name,cnpj,city=''):
         self.name = name
