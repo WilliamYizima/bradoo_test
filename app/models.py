@@ -75,13 +75,11 @@ class Errors(db.Model):
         self.end_point = end_point
         self.error = error
         self.updated_at = datetime.now()
-    
+
     def serialize(self):
         return{
             'id': self.id,
             'end_point': self.end_point,
-            'error':self.error,
-            'updated_at':self.updated_at
+            'error': self.error,
+            'updated_at': self.updated_at
         }
-
-        
