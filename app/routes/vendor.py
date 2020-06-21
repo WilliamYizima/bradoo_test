@@ -18,6 +18,7 @@ def add_vendor():
         print(str(e))
         return jsonify(content=e), 500
 
+
 @vendor.route('/<int:id_>', methods=['DELETE'])
 def delete_vendor(id_):
     try:
@@ -27,6 +28,7 @@ def delete_vendor(id_):
         return jsonify(f'Deletado {id_}'),200
     except Exception as e:
         return {'error':e},500
+
 
 @vendor.route("/edit/<int:id_>", methods=['PUT'])
 def edit_vendor(id_):
