@@ -23,13 +23,14 @@ def get_id(id_):
     try:
 
         vendor = Vendor.query.filter_by(id=id_).first()
-        vendor_id =vendor.serialize()
+        vendor_id = vendor.serialize()
         return render_template('list.html',
-                                vendor_id = vendor_id)
+                               vendor_id=vendor_id)
     except Exception as e:
         return (str(e))
 
-@page.route('/del/combo',methods=['POST'])
+
+@page.route('/del/combo', methods=['POST'])
 def delete_combo():   
     try:
         vendor_list = request.get_json()
