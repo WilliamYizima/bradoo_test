@@ -1,11 +1,9 @@
-from flask import Blueprint, request, jsonify,render_template,current_app
+from flask import Blueprint, request, jsonify, render_template, current_app
 from models import Vendor
-from helper import cnpj_without_mask
 from serialize import VendorSchema
-import json
+
 
 vendor = Blueprint('vendor', __name__)
-
 
 @vendor.route("/register",methods=['POST'])
 def add_vendor():
@@ -17,7 +15,7 @@ def add_vendor():
         return vs.jsonify(vendor), 200
     except Exception as e:
         print(str(e))
-        return jsonify(content =  e), 500
+        return jsonify(content=e), 500
 
 @vendor.route('/<int:id_>',methods=['DELETE'])
 def delete_vendor(id_):

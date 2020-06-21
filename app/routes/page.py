@@ -35,7 +35,7 @@ def delete_combo():
     try:
         vendor_list = request.get_json()
         for vendor_id in vendor_list['vendor_list']:
-            vendor = Vendor.query.filter_by(id=vendor_id).delete()
+            Vendor.query.filter_by(id=vendor_id).delete()
             db.session.commit()
         return redirect(url_for('list'))
 
