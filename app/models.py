@@ -58,18 +58,18 @@ class Product(db.Model):
         return{
             'id': self.id,
             'code': self.code,
-            'name':self.name,
+            'name': self.name,
             'price': 'R${:20,.2f}'.format(self.price),
             'vendor_id': self.city
         }
-    
+
 
 class Errors(db.Model):
 
-    id = db.Column(db.Integer,primary_key = True)
-    end_point = db.Column(db.String(),nullable = False, unique = False)
-    error = db.Column(db.String(),nullable = False, unique = False)
-    updated_at = db.Column(db.Date(), onupdate=datetime.now(),nullable=False)
+    id = db.Column(db.Integer, primary_key = True)
+    end_point = db.Column(db.String(), nullable = False, unique = False)
+    error = db.Column(db.String(), nullable = False, unique = False)
+    updated_at = db.Column(db.Date(), onupdate=datetime.now(), nullable=False)
 
     def __init__(self, end_point, error):
         self.end_point = end_point
