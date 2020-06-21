@@ -39,17 +39,17 @@ class Product(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     code = db.Column(db.String, nullable=False, unique=True)
-    name = db.Column(db.String(),nullable=False, unique=False)
+    name = db.Column(db.String(), nullable=False, unique=False)
     price = db.Column(db.Float(), nullable=False, unique=False)
-    vendor_id = db.Column(db.Integer, 
+    vendor_id = db.Column(db.Integer,
                           db.ForeignKey('vendor.id'),
                           nullable=False)
 
     def __init__(self, code, name, vendor_id, price=0.00):
         self.name = name
-        self.code = cnpj
-        self.price = city
-        self.vendor_id = city
+        self.code = code
+        self.price = price
+        self.vendor_id = vendor_id
 
     def __repr__(self):
         return '<id {}>'.format(self.id)
