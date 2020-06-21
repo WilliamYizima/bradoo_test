@@ -1,8 +1,8 @@
-from flask import Blueprint, request, jsonify,render_template,current_app
-from models import Vendor
-from helper import cnpj_without_mask
-from serialize import VendorSchema
 import json
+
+from flask import Blueprint, request, render_template, current_app
+from models import Vendor
+from serialize import VendorSchema
 
 page = Blueprint('page', __name__)
 
