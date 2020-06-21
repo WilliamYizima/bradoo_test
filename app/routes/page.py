@@ -15,7 +15,7 @@ def list():
                                obj=all_vendor)
     except Exception as e:
         return(str(e))
-    return render_template('list.html', obj = obj)
+    return render_template('list.html')
 
 
 @page.route('/get/<int:id_>')
