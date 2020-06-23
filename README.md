@@ -1,15 +1,15 @@
 # Bradoo - Python Developer
 
 - Validate:
-- [ ]  functionality
-- [ ]  deployment
+- [x]  functionality
+- [x]  deployment
 - [ ]  documentation
 - [ ]  testing
 
 - Requirements:
 
 - [ ]  Instructions needed to run the project into the repository
-- [ ]  Deploy Heroku
+- [x]  Deploy Heroku
 
 - Application 01:
 
@@ -21,26 +21,26 @@
         - CNPJ(required, this value is unique )
         - City
     - List
-        - [ ] Listing of vendor records, should allow searching of the records by any of the fields or a combination of them all
-        - [ ] Button to allow removal of a single or group of vendor records
-        - [ ] Button to create a new vendor 
-        - [ ] Button to edit a vendor 
+        - [x] Listing of vendor records, should allow searching of the records by any of the fields or a combination of them all
+        - [x] Button to allow removal of a single or group of vendor records
+        - [x] Button to create a new vendor 
+        - [x] Button to edit a vendor 
     - Edit
-        - [ ] Edit/create selection must include the required fields
-        - [ ] There must be a button to remove the record, if already existent 
-        - [ ] There must be a button to create/save the record
-        - [ ] The create/save button must validate if the required fields are filled.Upon successful create/save of record the user must be redirected to the vendor listing
-        - [ ] Upon successful create/save of record the user must be redirected to the vendor listing CNPJ value needs be a valid number according to the BR rules
+        - [x] Edit/create selection must include the required fields
+        - [x] There must be a button to remove the record, if already existent 
+        - [x] There must be a button to create/save the record
+        - [x] The create/save button must validate if the required fields are filled.Upon successful create/save of record the user must be redirected to the vendor listing
+        - [x] Upon successful create/save of record the user must be redirected to the vendor listing CNPJ value needs be a valid number according to the BR rules
     
     ##### Products
-    - [ ] From within the vendors record, yout should provide a list and record creation method and input form for the products of the vendor
-    - [ ] The product record need:
+    - [x] From within the vendors record, yout should provide a list and record creation method and input form for the products of the vendor
+    - [x] The product record need:
         - id(self generated, surrogate key) 
         - Name(required)
         - Code(required)
         - Price
-    - [ ] Validate fields
-    - [ ] The products records should only be changed/create/deleted upon the vendor create/save button (to exclude a vendor it is necessary to exclude a product)
+    - [x] Validate fields
+    - [x] The products records should only be changed/create/deleted upon the vendor create/save button (to exclude a vendor it is necessary to exclude a product)
 
 - Application 02:
     - [ ]  REST API for the vendor model
