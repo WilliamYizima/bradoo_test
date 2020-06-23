@@ -59,11 +59,28 @@ function register_vendor(id,name,cnpj,city) {
   async function excluir(id) {
 
     myElement = document.querySelector(`tr[data-id="${id}"]`)
-    myElement.remove()
 
     let response = await fetch(`vendor/${id}`, {
       method: 'DELETE',
-    });
+    }
+    
+    );
+    let data = await response.status;
+
+    if(data == 500){
+      console.log('deu ruim')
+      var alert = document.querySelector("#alerta")
+
+      alert.innerHTML = ` <div class="alert alert-danger alert-dismissible fade in" role="alert">
+      É necessário deletar todos os <a href="/${id}" class="alert-link">PRODUCTS</a> para deletar um Vendor. 
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>`
+    }else{
+      myElement.remove()
+    }
+
   }
 
   function checkbox_delete() {

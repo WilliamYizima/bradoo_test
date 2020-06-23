@@ -6,6 +6,7 @@
 <!-- Tab content -->
 <br>
 <div id="Vendor" class="active">
+<spam id="alerta"></spam>
 {% if obj%}
   <div class="table-title">
     <div class="row">
@@ -36,8 +37,7 @@
         <td class='col-sm-2'>{{objeto.city}}</td>
         <td class='col-sm-1'><button data-toggle="modal" data-target="#vendorModal" class="btn btn-warning" onclick="editar({{objeto}})">Edit</button></td>
         <td class='col-sm-1'><button type="button" class="btn btn-danger" onclick="excluir({{objeto.id}})">Delete</button>     </td>
-        <!-- <td class='col-sm-1'><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#productModal" data-whatever="@mdo">Insert Product</button></td> -->
-        <td class='col-sm-1'><a class="btn btn-primary" href="get/{{objeto.id}}">Insert Product</a></td>
+        <td class='col-sm-1'><a class="btn btn-primary" href="/{{objeto.id}}">Insert Product</a></td>
       </tr>
       {% endfor %}
     </tbody>
@@ -81,35 +81,7 @@
       </div>
     </div>
 
-      <!-- Produc VENDOR INSERT-->
-      <div class="modal fade" id="productModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-          <div class="modal-content">
-            <div class="modal-header">
-              <span><b>Product</b><span id="vendor-name-detail"></span></span>
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-              </button>
-            </div>
-            <div class="modal-body">
-              <form>
-                <div class="form-group">
-                  <label for="recipient-name" class="col-form-label">Recipient:</label>
-                  <input type="text" class="form-control" id="recipient-name">
-                </div>
-                <div class="form-group">
-                  <label for="message-text" class="col-form-label">Message:</label>
-                  <textarea class="form-control" id="message-text"></textarea>
-                </div>
-              </form>
-            </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-              <button type="button" class="btn btn-primary">Send message</button>
-            </div>
-          </div>
-        </div>
-      </div>
+
 
   </div>
   <br>
@@ -128,7 +100,7 @@
     </div>
   </div>
   <br>
-  <form action='/registerproduct' method='POST'>
+  <form action='product/register' method='POST'>
     <input type="hidden" readonly class="form-control" id="inputEmail" name="vendor_id"value="{{vendor_id.id}}">
     <div class="form-group row">
         <label for="inputEmail" class="col-sm-2 col-form-label">Name</label>
@@ -182,7 +154,7 @@
   <table class="table table-hover">
     <thead>
       <tr>
-        <th scope="col">ITEM</th>
+        <th scope="col">N Prod.</th>
         <th scope="col">NAME</th>
         <th scope="col">CODE</th>
         <th scope="col">PRICE</th>
@@ -193,19 +165,60 @@
     </thead>
     <tbody>
       {% for objeto in product%}
-      <tr data-id="{{vendor_id.id}}">
+      <tr data-id="{{objeto.id}}">
         <th scope="row">{{objeto.id}}</th>
         <td class='col-sm-2'>{{objeto.name}}</td>
         <td class='col-sm-2'>{{objeto.code}}</td>
         <td class='col-sm-2'>{{objeto.price}}</td>
-        <td class='col-sm-1'><button class="btn btn-warning" onclick="editar({{vendor_id}})">Editar</button></td>
-        <td class='col-sm-1'><button type="button" class="btn btn-danger" onclick="excluir()">Delete</button>     </td>
+        <td class='col-sm-1'><button class="btn btn-warning" data-toggle="modal" data-target="#productModal"  onclick="editar_product({{objeto}})">Editar</button></td>
+        <td class='col-sm-1'><button type="button" class="btn btn-danger" onclick="delete_product({{objeto.id}})">Delete</button>     </td>
       </tr>
       {% endfor %}
     </tbody>
   </table>r
   <br>
   <hr />
+        <!-- Produc VENDOR INSERT-->
+        <div class="modal fade" id="productModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <span><b>Product</b><span id="vendor-name-detail"></span></span>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                <form id="editProduct" method="POST">
+                  <span><input id="idProduct" type="hidden"></span>
+                  <span><input id="idProductVendor" type="hidden" name="vendor_id"></span>
+                  <div class="form-group">
+                    <label for="recipient-name" class="col-form-label">Name:</label>
+                    <input type="text"  class="form-control is-invalid" id="new-nameProduct" name="name" required>
+                    <div id="invalid-name">
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label for="recipient-name" class="col-form-label">Code:</label>
+                    <input type="text"  class="form-control is-invalid" id="new-codeProduct" name="code" required>
+                    <div id="invalid-name">
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label for="recipient-name" class="col-form-label">Price:</label>
+                    <input type="text"  class="form-control is-invalid" id="new-priceProduct" name="price">
+                    <div id="invalid-name">
+                    </div>
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" id="createProduct" class="btn btn-primary">Save</button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
 <script>
   document.getElementById("detailOpen").style.visibility = "visible"
   document.getElementById("detailOpen").click(); 

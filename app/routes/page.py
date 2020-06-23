@@ -20,7 +20,7 @@ def list():
     return render_template('list.html')
 
 
-@page.route('/get/<int:id_>')
+@page.route('/<int:id_>')
 def get_id(id_):
     try:
 
@@ -57,25 +57,4 @@ def delete_combo():
         return jsonify({'delete':'I have a problem'}), 500
 
 
-@page.route('/registerproduct', methods=['POST'])
-def add_product():
-    
-    vendor_id = int(request.form.get('vendor_id'))
-    price = request.form.get('price')
-    if (price==''):
-        price = 0
-    form_product = {'code':request.form.get('code'),
-                    'name':request.form.get('name'),
-                    'price':float(price),
-                    'vendor_id':int(request.form.get('vendor_id'))
-                    }
-    ps = ProductSchema()
-    print(form_product)
-    product = ps.load(form_product)
-    try:
-        current_app.db.session.add(product)
-        current_app.db.session.commit()
-        return redirect(url_for('page.get_id', id_=vendor_id))
-    except Exception as e:
-        print(str(e))
-        return redirect(url_for('page.get_id', id_=vendor_id))
+
